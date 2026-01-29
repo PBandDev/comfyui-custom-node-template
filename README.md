@@ -1,6 +1,6 @@
 # ComfyUI Custom Node Template
 
-Starter template for building ComfyUI custom nodes with TypeScript frontend.
+Starter template for building ComfyUI custom nodes with TypeScript frontend. Example use: [ComfyUI Node Organizer](https://github.com/PBandDev/comfyui-node-organizer)
 
 ## Quick Start
 
