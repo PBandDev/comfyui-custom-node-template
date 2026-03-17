@@ -1,57 +1,116 @@
 # ComfyUI Custom Node Template
 
-Starter template for building ComfyUI custom nodes with TypeScript frontend. Example use: [ComfyUI Node Organizer](https://github.com/PBandDev/comfyui-node-organizer)
+Starter template for ComfyUI custom nodes with a TypeScript frontend and optional Python node code. Example use: [ComfyUI Node Organizer](https://github.com/PBandDev/comfyui-node-organizer)
 
-## Quick Start
+Use it for:
 
-1. Click **"Use this template"** > **"Create a new repository"**
-2. Clone your new repository
-3. Update the placeholders below
-4. Run `pnpm install`
-5. Run `pnpm dev` to start development
+- frontend-only extensions
+- Python-backed custom nodes
+- nodepacks that ship both
 
-## Required Updates
+## Quick start
 
-After creating from template, search and replace these values:
+1. Create a repo from this template.
+2. Clone it locally.
+3. Link or symlink it into ComfyUI's `custom_nodes/` directory.
+4. Replace the template placeholders before you publish anything.
 
-| Search for | Replace with |
-|------------|--------------|
-| `comfyui-custom-node` | Your package slug (e.g., `comfyui-my-feature`) |
-| `My Custom Node` | Your display name (e.g., `My Feature`) |
-| `A ComfyUI custom node` | Your description |
-| `Your Name` | Your name |
-| `your-username` | Your GitHub/ComfyUI registry username |
+PowerShell example:
 
-### Files to update
+```powershell
+New-Item -ItemType SymbolicLink `
+  -Path C:\path\to\ComfyUI\custom_nodes\comfyui-my-node `
+  -Target C:\path\to\your\repo
+```
 
-- `package.json` - name, description, author
-- `pyproject.toml` - name, description, URLs, PublisherId, DisplayName, Icon
-- `src/constants.ts` - SETTINGS_PREFIX
-- `src/index.ts` - extension name, homepage URL
-- `assets/icon.svg` - replace with your icon
-- `LICENSE` - update copyright holder
+macOS / Linux example:
+
+```bash
+ln -s /path/to/your/repo /path/to/ComfyUI/custom_nodes/comfyui-my-node
+```
 
 ## Development
 
-1. Clone/symlink this folder into ComfyUI's `custom_nodes/` directory
-2. Run `pnpm install`
-3. Run `pnpm dev` to watch for changes and rebuild `dist/`
+Install dependencies:
 
 ```bash
-pnpm install    # Install dependencies
-pnpm dev        # Watch mode - rebuilds dist/ on change
-pnpm build      # Build for production
-pnpm test       # Run tests
+pnpm install
+uv sync --locked --group dev
 ```
 
-**Note:** Reload ComfyUI frontend (browser refresh) for JS changes. Restart ComfyUI server for Python changes.
+Frontend commands:
 
-## Publishing to ComfyUI Registry
+```bash
+pnpm dev
+pnpm typecheck
+pnpm test
+pnpm build
+```
 
-1. Ensure all fields in `pyproject.toml` are correct
-2. Add `REGISTRY_ACCESS_TOKEN` secret to your repo (from ComfyUI registry)
-3. Go to Actions → "Publish to Comfy registry" → Run workflow
-4. Select version bump type (patch/minor/major)
+Python tests:
+
+```bash
+uv run pytest tests/python -q
+```
+
+Reload the ComfyUI browser tab after frontend changes. Restart the ComfyUI server after Python changes.
+
+## Python test examples
+
+If your nodepack includes Python code, start with these files:
+
+- `tests/python/test_entrypoint_smoke.py` checks that `__init__.py` imports cleanly and exposes the expected entrypoint symbols.
+- `tests/python/fixtures/example_node.py` and `tests/python/test_example_node_pattern.py` show a small unit-test pattern for backend node logic.
+
+If you are shipping a frontend-only extension, keep the smoke test anyway. It still catches broken entrypoint changes in CI.
+
+## CI and release
+
+GitHub CI runs:
+
+- `uv sync --locked --group dev`
+- `uv run pytest tests/python -q`
+- `pnpm typecheck`
+- `pnpm test`
+- `pnpm build`
+
+The publish workflow runs the same checks, bumps the version, regenerates `uv.lock`, tags the release, and then publishes to the ComfyUI registry.
+
+## Publishing to the ComfyUI registry
+
+1. Make sure the metadata and branding are no longer template defaults.
+2. Confirm `pnpm test`, `pnpm build`, and `uv run pytest tests/python -q` pass locally.
+3. Add the `REGISTRY_ACCESS_TOKEN` repository secret.
+4. Run the `Publish to Comfy registry` workflow in GitHub Actions.
+5. Choose the version bump type.
+
+## Replace these placeholders
+
+| Search for | Replace with |
+|------------|--------------|
+| `comfyui-custom-node` | Your package slug |
+| `My Custom Node` | Your display name |
+| `A ComfyUI custom node` | Your description |
+| `Your Name` | Your name or org |
+| `your-username` | Your GitHub or registry username |
+
+Update these files before release:
+
+- `package.json`
+- `pyproject.toml`
+- `src/constants.ts`
+- `src/index.ts`
+- `LICENSE`
+- `assets/icon.svg`
+
+## Pre-publish checklist
+
+- Replace the default icon in `assets/icon.svg`
+- Replace the placeholder homepage URL in `src/index.ts`
+- Replace the placeholder settings prefix in `src/constants.ts`
+- Replace package metadata in `package.json` and `pyproject.toml`
+- Replace `Your Name` in `LICENSE`
+- Re-read the rendered README once with your real project name
 
 ## License
 
