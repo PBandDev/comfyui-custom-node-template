@@ -98,16 +98,16 @@ Update these files before release:
 
 - `package.json`
 - `pyproject.toml`
-- `src/constants.ts`
-- `src/index.ts`
+- `frontend/src/constants.ts`
+- `frontend/src/index.ts`
 - `LICENSE`
 - `assets/icon.svg`
 
 ## Pre-publish checklist
 
 - Replace the default icon in `assets/icon.svg`
-- Replace the placeholder homepage URL in `src/index.ts`
-- Replace the placeholder settings prefix in `src/constants.ts`
+- Replace the placeholder homepage URL in `frontend/src/index.ts`
+- Replace the placeholder settings prefix in `frontend/src/constants.ts`
 - Replace package metadata in `package.json` and `pyproject.toml`
 - Replace `Your Name` in `LICENSE`
 - Re-read the rendered README once with your real project name

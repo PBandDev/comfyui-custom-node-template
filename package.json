@@ -4,12 +4,12 @@
   "description": "A ComfyUI custom node",
   "type": "module",
   "scripts": {
-    "dev": "tsc && vite build --watch",
-    "build": "tsc && vite build",
-    "typecheck": "tsc --noEmit",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "dev": "tsc --noEmit -p frontend/tsconfig.json && vite build --watch --config frontend/vite.config.ts",
+    "build": "tsc --noEmit -p frontend/tsconfig.json && vite build --config frontend/vite.config.ts",
+    "typecheck": "tsc --noEmit -p frontend/tsconfig.json",
+    "test": "vitest run --config frontend/vitest.config.ts",
+    "test:watch": "vitest --config frontend/vitest.config.ts",
+    "test:coverage": "vitest run --coverage --config frontend/vitest.config.ts"
   },
   "keywords": [
     "comfyui",

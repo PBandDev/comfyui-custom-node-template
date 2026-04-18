@@ -19,7 +19,7 @@ app.registerExtension({
         const spanEl = document.createElement("span");
         spanEl.insertAdjacentHTML(
           "beforeend",
-          `<a href="https://github.com/your-username/comfyui-custom-node" target="_blank" style="padding-right: 12px;">Homepage</a>`
+          `<a href="https://github.com/your-username/comfyui-custom-node" target="_blank" rel="noopener noreferrer" style="padding-right: 12px;">Homepage</a>`,
         );
 
         return spanEl;
@@ -30,9 +30,8 @@ app.registerExtension({
       id: SETTINGS_IDS.DEBUG_LOGGING,
       name: "Enable Debug Logging",
       type: "boolean",
-      tooltip:
-        "Show detailed debug logs in browser console during operation",
+      tooltip: "Show detailed debug logs in browser console during operation",
       defaultValue: false,
     },
-  ]
+  ],
 });

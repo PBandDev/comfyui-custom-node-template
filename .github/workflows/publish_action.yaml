@@ -111,7 +111,7 @@ jobs:
 
       - name: Commit version bump
         run: |
-          git add pyproject.toml package.json src/index.ts uv.lock
+          git add pyproject.toml package.json frontend/src/index.ts uv.lock
           git commit -m "chore: bump version to ${{ steps.versions.outputs.current-version }} [skip ci]"
 
       - name: Create release tag
