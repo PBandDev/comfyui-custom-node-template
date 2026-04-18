@@ -13,6 +13,9 @@ GITIGNORE_PATH = REPO_ROOT / ".gitignore"
 PNPM_WORKSPACE_PATH = REPO_ROOT / "pnpm-workspace.yaml"
 CI_WORKFLOW_PATH = REPO_ROOT / ".github" / "workflows" / "ci.yaml"
 PUBLISH_WORKFLOW_PATH = REPO_ROOT / ".github" / "workflows" / "publish_action.yaml"
+README_PATH = REPO_ROOT / "README.md"
+AGENTS_PATH = REPO_ROOT / "AGENTS.md"
+TESTING_DOC_PATH = REPO_ROOT / "docs" / "TESTING.md"
 E2E_CONFIG_PATH = REPO_ROOT / "e2e.config.mjs"
 SETUP_E2E_SCRIPT_PATH = REPO_ROOT / "scripts" / "setup-e2e-comfy.mjs"
 PLAYWRIGHT_CONFIG_PATH = REPO_ROOT / "playwright.config.ts"
@@ -107,3 +110,24 @@ def test_ci_workflows_use_repo_command_surface():
     assert "pnpm exec playwright install chromium --with-deps" in publish_workflow
     assert "pnpm test" in publish_workflow
     assert "git add pyproject.toml package.json frontend/src/index.ts uv.lock" in publish_workflow
+
+
+def test_docs_explain_the_slim_command_surface():
+    readme = README_PATH.read_text(encoding="utf-8")
+    agents = AGENTS_PATH.read_text(encoding="utf-8")
+    testing_doc = TESTING_DOC_PATH.read_text(encoding="utf-8")
+
+    assert "pnpm install" in readme
+    assert "uv sync --locked --group dev" in readme
+    assert "pnpm test:e2e" in readme
+    assert "docs/TESTING.md" in readme
+
+    assert "frontend/" in agents
+    assert "backend/" in agents
+    assert "pnpm test" in agents
+    assert "docs/TESTING.md" in agents
+
+    assert "pnpm setup:e2e" in testing_doc
+    assert "pnpm test" in testing_doc
+    assert ".e2e/" in testing_doc
+    assert "v0.18.1" in testing_doc
