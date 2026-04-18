@@ -11,6 +11,8 @@ PACKAGE_JSON_PATH = REPO_ROOT / "package.json"
 PYPROJECT_PATH = REPO_ROOT / "pyproject.toml"
 GITIGNORE_PATH = REPO_ROOT / ".gitignore"
 PNPM_WORKSPACE_PATH = REPO_ROOT / "pnpm-workspace.yaml"
+CI_WORKFLOW_PATH = REPO_ROOT / ".github" / "workflows" / "ci.yaml"
+PUBLISH_WORKFLOW_PATH = REPO_ROOT / ".github" / "workflows" / "publish_action.yaml"
 E2E_CONFIG_PATH = REPO_ROOT / "e2e.config.mjs"
 SETUP_E2E_SCRIPT_PATH = REPO_ROOT / "scripts" / "setup-e2e-comfy.mjs"
 PLAYWRIGHT_CONFIG_PATH = REPO_ROOT / "playwright.config.ts"
@@ -87,3 +89,21 @@ def test_e2e_harness_files_exist():
     assert E2E_SETUP_PATH.is_file()
     assert E2E_TEARDOWN_PATH.is_file()
     assert E2E_SMOKE_SPEC_PATH.is_file()
+
+
+def test_ci_workflows_use_repo_command_surface():
+    ci_workflow = CI_WORKFLOW_PATH.read_text(encoding="utf-8")
+    publish_workflow = PUBLISH_WORKFLOW_PATH.read_text(encoding="utf-8")
+
+    assert "pnpm install --frozen-lockfile" in ci_workflow
+    assert "uv sync --locked --group dev" in ci_workflow
+    assert "pnpm exec playwright install chromium --with-deps" in ci_workflow
+    assert "pnpm typecheck" in ci_workflow
+    assert "pnpm test:unit" in ci_workflow
+    assert "pnpm test:e2e" in ci_workflow
+
+    assert "pnpm install --frozen-lockfile" in publish_workflow
+    assert "uv sync --locked --group dev" in publish_workflow
+    assert "pnpm exec playwright install chromium --with-deps" in publish_workflow
+    assert "pnpm test" in publish_workflow
+    assert "git add pyproject.toml package.json frontend/src/index.ts uv.lock" in publish_workflow
