@@ -1,0 +1,60 @@
+{
+  "version": 1,
+  "skills": {
+    "comfyui-api": {
+      "source": "mckruz/comfyui-expert",
+      "sourceType": "github",
+      "computedHash": "c0c1646f0ad9f5c2a57be047510c385919bfc535c828eb9942a29c46657397ab"
+    },
+    "comfyui-inventory": {
+      "source": "mckruz/comfyui-expert",
+      "sourceType": "github",
+      "computedHash": "d17305493e6323089d3c8fc7814485280ce45864c2e805eb8b2f5abf91fd410f"
+    },
+    "comfyui-node-advanced": {
+      "source": "jtydhr88/comfyui-custom-node-skills",
+      "sourceType": "github",
+      "computedHash": "03799edb3103722ead90bcd8e46af8fac43569a3c2d43864806d519136b52fe1"
+    },
+    "comfyui-node-basics": {
+      "source": "jtydhr88/comfyui-custom-node-skills",
+      "sourceType": "github",
+      "computedHash": "5bbc684f289f46e0bc8305cb00ffe72faf8ce05bdd70a63703e33d469a58cbee"
+    },
+    "comfyui-node-datatypes": {
+      "source": "jtydhr88/comfyui-custom-node-skills",
+      "sourceType": "github",
+      "computedHash": "f70e3a61bd41d641c4fa2d6f69f9fe164e95fd66cc41610c306da9f7f65622c9"
+    },
+    "comfyui-node-frontend": {
+      "source": "jtydhr88/comfyui-custom-node-skills",
+      "sourceType": "github",
+      "computedHash": "f05cf13e53e79466848191af5fc18d7c1ede8cf02352a545dfa6650e65625597"
+    },
+    "comfyui-node-inputs": {
+      "source": "jtydhr88/comfyui-custom-node-skills",
+      "sourceType": "github",
+      "computedHash": "758d6139032c8644c1ef50bbc0f4a4cca8e4bb109fd3905e283b8952ab44d576"
+    },
+    "comfyui-node-lifecycle": {
+      "source": "jtydhr88/comfyui-custom-node-skills",
+      "sourceType": "github",
+      "computedHash": "c0cfc32aa612e0bdb036ed3707c5adc0122a93733d8126452b962cd5f34138bc"
+    },
+    "comfyui-node-migration": {
+      "source": "jtydhr88/comfyui-custom-node-skills",
+      "sourceType": "github",
+      "computedHash": "55d154e557a9a27eebcc6bc387bc6a1157e9d0f341aa09ecc8b036e1060f9ce5"
+    },
+    "comfyui-node-outputs": {
+      "source": "jtydhr88/comfyui-custom-node-skills",
+      "sourceType": "github",
+      "computedHash": "126c57d39f48a0801a8aa04445769e6c409d8a7d4433db3d04af34d2fb5c7843"
+    },
+    "comfyui-node-packaging": {
+      "source": "jtydhr88/comfyui-custom-node-skills",
+      "sourceType": "github",
+      "computedHash": "e7bd8c738165172545376209b09b4bb4a4784744fd70933c694ca1032a3e2caa"
+    }
+  }
+}
