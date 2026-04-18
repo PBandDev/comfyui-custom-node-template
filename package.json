@@ -7,7 +7,10 @@
     "dev": "tsc --noEmit -p frontend/tsconfig.json && vite build --watch --config frontend/vite.config.ts",
     "build": "tsc --noEmit -p frontend/tsconfig.json && vite build --config frontend/vite.config.ts",
     "typecheck": "tsc --noEmit -p frontend/tsconfig.json",
-    "test": "vitest run --config frontend/vitest.config.ts",
+    "test": "pnpm test:unit",
+    "test:frontend": "vitest run --config frontend/vitest.config.ts",
+    "test:backend": "uv run pytest tests/python tests/backend -q",
+    "test:unit": "pnpm test:frontend && pnpm test:backend",
     "test:watch": "vitest --config frontend/vitest.config.ts",
     "test:coverage": "vitest run --coverage --config frontend/vitest.config.ts"
   },

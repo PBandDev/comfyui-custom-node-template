@@ -20,7 +20,7 @@ PublisherId = "your-username"
 DisplayName = "My Custom Node"
 Icon = "https://raw.githubusercontent.com/your-username/comfyui-custom-node/main/assets/icon.svg"
 requires-comfyui = ">=0.3.0"
-includes = ['dist/']
+includes = ['dist']
 
 [tool.bumpversion]
 current_version = "1.0.0"
