@@ -1,8 +1,12 @@
 # AGENTS.md
 
-For ComfyUI work in this repository, start with the `comfyui-api`, `comfyui-inventory`, `comfyui-node-basics`, `comfyui-node-packaging`, `comfyui-node-advanced`, and `comfyui-node-frontend` skills.
+Single publishable ComfyUI custom node pack.
 
-Repository-specific notes:
-- This template bundles frontend code with TypeScript/Vite and exposes `WEB_DIRECTORY = "./dist"` in `__init__.py`; do not assume the older plain `js/` layout from generic ComfyUI examples.
-- Treat `.agents/skills` as starting guidance, not source of truth. Verify ComfyUI frontend and backend API behavior against current official docs before making architectural changes or using advanced patterns.
-- Be cautious with `comfy_api.latest` and prototype hijacking in frontend extensions; prefer stable/versioned APIs and official extension hooks when possible.
+- Frontend runtime code lives in `frontend/`
+- Backend node code lives in `backend/`
+- Root `__init__.py` is the thin ComfyUI entry shim
+- Use repo commands first: `pnpm typecheck`, `pnpm test`, `pnpm test:unit`, `pnpm test:e2e`
+- Use `uv` for Python dependency sync and Python execution outside repo scripts
+
+For testing details, see `docs/TESTING.md`.
+For ComfyUI API changes, verify current official docs before changing architecture or advanced frontend hooks.

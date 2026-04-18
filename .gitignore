@@ -19,3 +19,6 @@ node.zip
 .claude/
 .changeset/
 docs/superpowers/
+.e2e/
+test-results/
+playwright-report/

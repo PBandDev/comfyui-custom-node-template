@@ -17,18 +17,17 @@ jobs:
   test:
     name: Test before publish
     runs-on: ubuntu-latest
-    if: github.actor == github.repository_owner
     steps:
       - name: Check out code
         uses: actions/checkout@v4
 
       - name: Use Python from .python-version
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version-file: ".python-version"
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@v7
         with:
           enable-cache: true
 
@@ -41,14 +40,11 @@ jobs:
           node-version: 20
           cache: "pnpm"
 
-      - name: Install dependencies
-        run: pnpm install
+      - name: Install Node dependencies
+        run: pnpm install --frozen-lockfile
 
       - name: Sync Python dependencies
         run: uv sync --locked --group dev
-
-      - name: Run Python tests
-        run: uv run pytest tests/python -q
 
       - name: Typecheck
         run: pnpm typecheck
@@ -63,7 +59,7 @@ jobs:
     name: Bump version and create tag
     runs-on: ubuntu-latest
     needs: test
-    if: github.actor == github.repository_owner
+    if: github.ref == 'refs/heads/main'
     outputs:
       previous-version: ${{ steps.versions.outputs.previous-version }}
       current-version: ${{ steps.versions.outputs.current-version }}
@@ -76,12 +72,12 @@ jobs:
           fetch-depth: 0
 
       - name: Use Python from .python-version
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version-file: ".python-version"
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@v7
         with:
           enable-cache: true
 
@@ -111,7 +107,7 @@ jobs:
 
       - name: Commit version bump
         run: |
-          git add pyproject.toml package.json src/index.ts uv.lock
+          git add pyproject.toml package.json frontend/src/index.ts uv.lock
           git commit -m "chore: bump version to ${{ steps.versions.outputs.current-version }} [skip ci]"
 
       - name: Create release tag
@@ -139,7 +135,7 @@ jobs:
     name: Publish Custom Node to registry
     runs-on: ubuntu-latest
     needs: bump-version
-    if: github.actor == github.repository_owner
+    if: github.ref == 'refs/heads/main'
     steps:
       - name: Check out code
         uses: actions/checkout@v4
@@ -157,13 +153,13 @@ jobs:
           cache: "pnpm"
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
       - name: Build custom node
         run: pnpm build
 
       - name: Publish Custom Node
-        uses: Comfy-Org/publish-node-action@main
+        uses: Comfy-Org/publish-node-action@1.0.1
         with:
           personal_access_token: ${{ secrets.REGISTRY_ACCESS_TOKEN }}
           skip_checkout: "true"

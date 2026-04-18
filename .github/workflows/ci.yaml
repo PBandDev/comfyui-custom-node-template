@@ -7,20 +7,20 @@ on:
     branches: [main]
 
 jobs:
-  test:
-    name: Test & Build
+  validate:
+    name: Validate
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
         uses: actions/checkout@v4
 
       - name: Use Python from .python-version
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version-file: ".python-version"
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@v7
         with:
           enable-cache: true
 
@@ -33,20 +33,17 @@ jobs:
           node-version: 20
           cache: "pnpm"
 
-      - name: Install dependencies
-        run: pnpm install
+      - name: Install Node dependencies
+        run: pnpm install --frozen-lockfile
 
       - name: Sync Python dependencies
         run: uv sync --locked --group dev
 
-      - name: Run Python tests
-        run: uv run pytest tests/python -q
-
       - name: Typecheck
         run: pnpm typecheck
 
-      - name: Run tests
-        run: pnpm test
+      - name: Run unit tests
+        run: pnpm test:unit
 
-      - name: Build
-        run: pnpm build
+      - name: Run E2E tests
+        run: pnpm test:e2e
