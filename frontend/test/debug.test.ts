@@ -11,6 +11,11 @@ describe("debug helpers", () => {
     expect(isDebugEnabled(undefined)).toBe(false);
   });
 
+  it("uses stable ComfyUI setting ids", () => {
+    expect(SETTINGS_IDS.VERSION).toBe("My Custom Node.Version");
+    expect(SETTINGS_IDS.DEBUG_LOGGING).toBe("My Custom Node.Debug Logging");
+  });
+
   it("reads the debug logging setting from the provided reader", () => {
     const get = vi.fn<(id: string) => boolean>().mockReturnValue(true);
 

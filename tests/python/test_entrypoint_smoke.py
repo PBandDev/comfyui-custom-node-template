@@ -110,6 +110,7 @@ def test_ci_workflows_use_repo_command_surface():
     assert "uv sync --locked --group dev" in publish_workflow
     assert "pnpm test" in publish_workflow
     assert "git add pyproject.toml package.json frontend/src/index.ts uv.lock" in publish_workflow
+    assert "Comfy-Org/publish-node-action@1.0.1" in publish_workflow
 
 
 def test_docs_explain_the_slim_command_surface():
