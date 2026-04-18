@@ -11,6 +11,12 @@ PACKAGE_JSON_PATH = REPO_ROOT / "package.json"
 PYPROJECT_PATH = REPO_ROOT / "pyproject.toml"
 GITIGNORE_PATH = REPO_ROOT / ".gitignore"
 PNPM_WORKSPACE_PATH = REPO_ROOT / "pnpm-workspace.yaml"
+E2E_CONFIG_PATH = REPO_ROOT / "e2e.config.mjs"
+SETUP_E2E_SCRIPT_PATH = REPO_ROOT / "scripts" / "setup-e2e-comfy.mjs"
+PLAYWRIGHT_CONFIG_PATH = REPO_ROOT / "playwright.config.ts"
+E2E_SETUP_PATH = REPO_ROOT / "tests" / "e2e" / "global.setup.ts"
+E2E_TEARDOWN_PATH = REPO_ROOT / "tests" / "e2e" / "global.teardown.ts"
+E2E_SMOKE_SPEC_PATH = REPO_ROOT / "tests" / "e2e" / "smoke.spec.ts"
 
 
 def test_template_entrypoint_exports_expected_symbols_via_package_loader():
@@ -48,10 +54,12 @@ def test_root_package_surface_matches_frontend_backend_split():
         "vite build --config frontend/vite.config.ts"
     )
     assert scripts["typecheck"] == "tsc --noEmit -p frontend/tsconfig.json"
-    assert scripts["test"] == "pnpm test:unit"
+    assert scripts["test"] == "pnpm test:unit && pnpm test:e2e"
     assert scripts["test:frontend"] == "vitest run --config frontend/vitest.config.ts"
     assert scripts["test:backend"] == "uv run pytest tests/python tests/backend -q"
     assert scripts["test:unit"] == "pnpm test:frontend && pnpm test:backend"
+    assert scripts["setup:e2e"] == "playwright install chromium && node scripts/setup-e2e-comfy.mjs"
+    assert scripts["test:e2e"] == "pnpm build && pnpm setup:e2e && playwright test"
 
 
 def test_root_packaging_metadata_matches_layout():
@@ -70,3 +78,12 @@ def test_root_gitignore_and_workspace_surface_match_harness_expectations():
     assert "test-results/" in gitignore
     assert "playwright-report/" in gitignore
     assert not PNPM_WORKSPACE_PATH.exists()
+
+
+def test_e2e_harness_files_exist():
+    assert E2E_CONFIG_PATH.is_file()
+    assert SETUP_E2E_SCRIPT_PATH.is_file()
+    assert PLAYWRIGHT_CONFIG_PATH.is_file()
+    assert E2E_SETUP_PATH.is_file()
+    assert E2E_TEARDOWN_PATH.is_file()
+    assert E2E_SMOKE_SPEC_PATH.is_file()
