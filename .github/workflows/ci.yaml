@@ -39,9 +39,6 @@ jobs:
       - name: Sync Python dependencies
         run: uv sync --locked --group dev
 
-      - name: Install Playwright browser
-        run: pnpm exec playwright install chromium --with-deps
-
       - name: Typecheck
         run: pnpm typecheck
 

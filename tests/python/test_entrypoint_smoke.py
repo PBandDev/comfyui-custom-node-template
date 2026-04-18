@@ -63,7 +63,9 @@ def test_root_package_surface_matches_frontend_backend_split():
     assert scripts["test:frontend"] == "vitest run --config frontend/vitest.config.ts"
     assert scripts["test:backend"] == "uv run pytest tests/python tests/backend -q"
     assert scripts["test:unit"] == "pnpm test:frontend && pnpm test:backend"
-    assert scripts["setup:e2e"] == "playwright install chromium && node scripts/setup-e2e-comfy.mjs"
+    assert scripts["setup:e2e"] == (
+        "playwright install --with-deps chromium && node scripts/setup-e2e-comfy.mjs"
+    )
     assert scripts["test:e2e"] == "pnpm build && pnpm setup:e2e && playwright test"
 
 
@@ -100,14 +102,12 @@ def test_ci_workflows_use_repo_command_surface():
 
     assert "pnpm install --frozen-lockfile" in ci_workflow
     assert "uv sync --locked --group dev" in ci_workflow
-    assert "pnpm exec playwright install chromium --with-deps" in ci_workflow
     assert "pnpm typecheck" in ci_workflow
     assert "pnpm test:unit" in ci_workflow
     assert "pnpm test:e2e" in ci_workflow
 
     assert "pnpm install --frozen-lockfile" in publish_workflow
     assert "uv sync --locked --group dev" in publish_workflow
-    assert "pnpm exec playwright install chromium --with-deps" in publish_workflow
     assert "pnpm test" in publish_workflow
     assert "git add pyproject.toml package.json frontend/src/index.ts uv.lock" in publish_workflow
 
@@ -131,3 +131,4 @@ def test_docs_explain_the_slim_command_surface():
     assert "pnpm test" in testing_doc
     assert ".e2e/" in testing_doc
     assert "v0.18.1" in testing_doc
+    assert "COMFYUI_E2E_PORT" in testing_doc
