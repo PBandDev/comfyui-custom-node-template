@@ -4,19 +4,20 @@ from conftest import load_package_from_path
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-ENTRYPOINT_PATH = REPO_ROOT / "__init__.py"
+BACKEND_INIT_PATH = REPO_ROOT / "backend" / "__init__.py"
 
 
-def test_template_entrypoint_exports_expected_symbols_via_package_loader():
+def test_backend_package_exports_example_node_mappings():
     module = load_package_from_path(
-        "template_entrypoint",
-        ENTRYPOINT_PATH,
+        "backend_package",
+        BACKEND_INIT_PATH,
         repo_root=REPO_ROOT,
     )
 
-    assert module.WEB_DIRECTORY == "./dist"
+    example_node = module.ExampleNormalizeTextNode
+
     assert module.NODE_CLASS_MAPPINGS == {
-        "TemplateExampleNormalizeText": module.ExampleNormalizeTextNode,
+        "TemplateExampleNormalizeText": example_node,
     }
     assert module.NODE_DISPLAY_NAME_MAPPINGS == {
         "TemplateExampleNormalizeText": "Template Example Normalize Text",
@@ -25,5 +26,4 @@ def test_template_entrypoint_exports_expected_symbols_via_package_loader():
         "ExampleNormalizeTextNode",
         "NODE_CLASS_MAPPINGS",
         "NODE_DISPLAY_NAME_MAPPINGS",
-        "WEB_DIRECTORY",
     ]

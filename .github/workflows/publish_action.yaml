@@ -17,7 +17,6 @@ jobs:
   test:
     name: Test before publish
     runs-on: ubuntu-latest
-    if: github.actor == github.repository_owner
     steps:
       - name: Check out code
         uses: actions/checkout@v4
@@ -48,7 +47,7 @@ jobs:
         run: uv sync --locked --group dev
 
       - name: Run Python tests
-        run: uv run pytest tests/python -q
+        run: uv run pytest tests/python tests/backend -q
 
       - name: Typecheck
         run: pnpm typecheck
@@ -63,7 +62,7 @@ jobs:
     name: Bump version and create tag
     runs-on: ubuntu-latest
     needs: test
-    if: github.actor == github.repository_owner
+    if: github.ref == 'refs/heads/main'
     outputs:
       previous-version: ${{ steps.versions.outputs.previous-version }}
       current-version: ${{ steps.versions.outputs.current-version }}
@@ -139,7 +138,7 @@ jobs:
     name: Publish Custom Node to registry
     runs-on: ubuntu-latest
     needs: bump-version
-    if: github.actor == github.repository_owner
+    if: github.ref == 'refs/heads/main'
     steps:
       - name: Check out code
         uses: actions/checkout@v4

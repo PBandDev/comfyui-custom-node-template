@@ -40,7 +40,7 @@ jobs:
         run: uv sync --locked --group dev
 
       - name: Run Python tests
-        run: uv run pytest tests/python -q
+        run: uv run pytest tests/python tests/backend -q
 
       - name: Typecheck
         run: pnpm typecheck

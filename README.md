@@ -50,7 +50,7 @@ pnpm build
 Python tests:
 
 ```bash
-uv run pytest tests/python -q
+uv run pytest tests/python tests/backend -q
 ```
 
 Reload the ComfyUI browser tab after frontend changes. Restart the ComfyUI server after Python changes.
@@ -60,7 +60,8 @@ Reload the ComfyUI browser tab after frontend changes. Restart the ComfyUI serve
 If your nodepack includes Python code, start with these files:
 
 - `tests/python/test_entrypoint_smoke.py` checks that `__init__.py` imports cleanly and exposes the expected entrypoint symbols.
-- `tests/python/fixtures/example_node.py` and `tests/python/test_example_node_pattern.py` show a small unit-test pattern for backend node logic.
+- `tests/python/test_backend_example_compat.py` exercises the promoted backend example through the root entrypoint path used in the current Python lane.
+- `tests/backend/test_example_normalize_text.py` shows a small unit-test pattern for backend node logic.
 
 If you are shipping a frontend-only extension, keep the smoke test anyway. It still catches broken entrypoint changes in CI.
 
@@ -69,7 +70,7 @@ If you are shipping a frontend-only extension, keep the smoke test anyway. It st
 GitHub CI runs:
 
 - `uv sync --locked --group dev`
-- `uv run pytest tests/python -q`
+- `uv run pytest tests/python tests/backend -q`
 - `pnpm typecheck`
 - `pnpm test`
 - `pnpm build`
@@ -79,7 +80,7 @@ The publish workflow runs the same checks, bumps the version, regenerates `uv.lo
 ## Publishing to the ComfyUI registry
 
 1. Make sure the metadata and branding are no longer template defaults.
-2. Confirm `pnpm test`, `pnpm build`, and `uv run pytest tests/python -q` pass locally.
+2. Confirm `pnpm test`, `pnpm build`, and `uv run pytest tests/python tests/backend -q` pass locally.
 3. Add the `REGISTRY_ACCESS_TOKEN` repository secret.
 4. Run the `Publish to Comfy registry` workflow in GitHub Actions.
 5. Choose the version bump type.
